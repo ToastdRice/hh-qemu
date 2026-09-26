@@ -69,6 +69,15 @@ config RISCV_VIRT
     select ACPI
     select ACPI_PCI
 
+config RISCV_ZMACHINE
+    bool
+    default y
+    depends on RISCV32
+    select DEVICE_TREE
+    select RISCV_ACLINT
+    select SERIAL_MM
+    select ZDEVICE
+
 config SHAKTI_C
     bool
     default y
