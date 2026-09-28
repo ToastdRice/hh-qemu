@@ -88,16 +88,10 @@ static void zmachine_init(MachineState *machine)
     RISCVBootInfo boot_info;
 
     memory_region_add_subregion(system_memory, ZMACHINE_DRAM_BASE,
-                                machine->ram);
+                                machine->ram); 
 
-
-    memory_region_init_ram(&s->payload_ram, NULL, "riscv.zmachine.payload_ram",
-                           ZMACHINE_PAYLOAD_SIZE, &error_fatal);
-
-    // TODO: add a subregion of memory that is 8 byte aligned around where our kernel will be injected
-    memory_region_add_subregion(system_memory, ZMACHINE_PAYLOAD_BASE,
-                                &s->payload_ram);
-
+    // TODO: initialize a new chunk of RAM with a subregion
+    //  that is 8 byte aligned around where our kernel will be injected
 
     object_initialize_child(OBJECT(machine), "cpus", &s->cpus,
                             TYPE_RISCV_HART_ARRAY);
