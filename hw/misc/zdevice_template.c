@@ -59,18 +59,21 @@ static void zdevice_write(void *opaque, hwaddr addr, uint64_t val64,
 }
 
 static const MemoryRegionOps zdevice_ops = {
-    .read = zdevice_read,
-    .write = zdevice_write,
-    .endianness = DEVICE_LITTLE_ENDIAN,
-    /*
-     * TODO: decide which access sizes the guest may use (.valid) and which
-     * ones zdevice_read() and zdevice_write() are handed (.impl).
-     */
+    // set the memory region read/write callbacks
+    // specify endianness
+    .valid = {
+        .min_access_size = 2,
+        .max_access_size = 4,
+    },
+    .impl = {
+        .min_access_size = 2,
+        .max_access_size = 2,
+    },
 };
 
 static void zdevice_reset_enter(Object *obj, ResetType type)
 {
-    /* TODO: create the state structure and initialize all values */
+    /* TODO: create the state structure and initialize/zero all values */
 }
 
 static void zdevice_init(Object *obj)

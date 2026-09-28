@@ -25,27 +25,6 @@
 #define TYPE_ZDEVICE "zmachine.zdevice"
 OBJECT_DECLARE_SIMPLE_TYPE(ZDeviceState, ZDEVICE)
 
-/*
- * MMIO layout, as byte offsets from the device base address:
- *
- *   0x0000 .. 0x003f   reserved
- *   0x0040             ZDEVICE_REG_KEY   (16-bit) XOR key
- *   0x0042             ZDEVICE_REG_SHIFT (16-bit) left shift toggle
- *   0x0044 .. 0x00ff   reserved
- *   0x0100 .. 0xffff   data scratchpad
- *
- * Every halfword written to the data scratchpad is transformed before it is
- * stored:
- *
- *      stored = (written ^ KEY) << (SHIFT ? ZDEVICE_SHIFT_BITS : 0)
- *
- * A read of the scratchpad returns the stored halfword as-is, so the
- * transform is never applied twice. The two control registers are plain
- * read/write storage and are not transformed.
- *
- * Keep this in sync with the OpenSBI driver in
- * include/sbi_utils/zdevice/zdevice.h.
- */
 #define ZDEVICE_SIZE            0x10000
 
 #define ZDEVICE_CTRL_BASE       0x0040
